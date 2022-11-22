@@ -14,11 +14,11 @@
 
     <div class="container">
         <div class="controls">
-            <input type="color" class="color-picker" value="black"></input>
-            <button class="color">Color</button>
-            <button class="rainbow">Rainbow</button>
-            <button class="erase">Erase</button>
-            <button class="clear">Clear</button>
+            <input type="color" class="color-picker" value="#000000"></input>
+            <button class="toggle on" value="on" id="color">Color</button>
+            <button class="toggle" value="off" id="rainbow">Rainbow</button>
+            <button class="toggle" value="off" id="erase">Erase</button>
+            <button id="clear">Clear</button>
             <div class="slide-container">
                 <p id="grid">Grid size: 16 x 16</p>
                 <input type="range" class="slider" id="myRange">

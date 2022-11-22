@@ -54,9 +54,18 @@ button {
     outline: none;
 }
 
+button:hover {
+    transform: scale(1.1);
+    transition: 0.3s ease;
+}
+
 p {
     font-size: 20px;
     margin-top: -10px;
+}
+
+.slider {
+    width: 170px;
 }
 
 .display {
@@ -65,4 +74,15 @@ p {
     height: 500px;
     width: 500px;
     padding: 0px;
+    display: grid;
+}
+
+.display div {
+    background: white;
+}
+
+.controls .on {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
 }
