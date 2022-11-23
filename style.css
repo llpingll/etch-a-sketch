@@ -3,6 +3,9 @@ body {
     background: #303030;
     color: white;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    -webkit-user-select: none;
+    -ms-user-select: none; 
+    user-select: none; /* Remove highlight, fixes selection bug */
 }
 
 h1 {
@@ -79,6 +82,7 @@ p {
 
 .display div {
     background: white;
+    border: 1px solid black;
 }
 
 .controls .on {

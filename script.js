@@ -5,6 +5,15 @@ const sliderProperties = {
     max: "64"
 };
 
+// Toggle for mouseup and mousedown
+let mouseDown = 0;
+document.body.onmousedown = function() { 
+  ++mouseDown;
+}
+document.body.onmouseup = function() {
+  --mouseDown;
+}
+
 
 // Get elements
 const slider = document.getElementById("myRange");
@@ -28,22 +37,42 @@ function addGrid(numberOfBlocks) {
     
     numberOfBlocks2 = numberOfBlocks * numberOfBlocks;
     for (let i = 0; i < numberOfBlocks2; i++) {
-        const div = document.createElement("div");
-        grid.appendChild(div);
+        let div = document.createElement("div");
+        div.classList.add("gridElement");
+        grid.insertAdjacentElement("beforeend", div);
     }
 }
 
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
 
-// Set initial slider properties
+function addDivEventListener() {
+    const divs = document.querySelectorAll(".display div");
+    divs.forEach(el => el.addEventListener("mouseover", function() {
+        if (mouseDown === 1) {
+            el.style.backgroundColor = "black";
+        }
+    }));
+    divs.forEach(el => el.addEventListener("mousedown", () => el.style.backgroundColor = "black"));
+}
+
+// Set initial slider properties and grid
 setAttributes(slider, sliderProperties);
-// Set initial grid
 addGrid(slider.value);
+addDivEventListener();
 
 // Slider event
-slider.oninput = function() {
-  slider.setAttribute("value", this.value)
-  gridDisplay.textContent = `Grid size: ${this.value} x ${this.value}`;
-  addGrid(this.value);
+slider.onchange = function() {
+    removeAllChildNodes(grid);
+    addGrid(this.value);
+    addDivEventListener();
+}
+slider.oninput = (e) => {
+    slider.setAttribute("value", e.target.value);
+    gridDisplay.textContent = `Grid size: ${e.target.value} x ${e.target.value}`;
 }
 
 // Add event listener for each button
@@ -59,4 +88,7 @@ buttons.forEach(btn => btn.addEventListener("click", function() {
 }));
 
 // Add event listener to clear button
-clear.addEventListener("click", addGrid(slider.value));
+clear.addEventListener("click", () => {
+    const divs = document.querySelectorAll(".display div");
+    divs.forEach(el => el.style.backgroundColor = "white");
+});
