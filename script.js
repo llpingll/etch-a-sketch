@@ -5,14 +5,12 @@ const sliderProperties = {
     max: "64"
 };
 
+let activeButton = "color";
+
 // Toggle for mouseup and mousedown
-let mouseDown = 0;
-document.body.onmousedown = function() { 
-  ++mouseDown;
-}
-document.body.onmouseup = function() {
-  --mouseDown;
-}
+let mouseDown = false;
+document.body.onmousedown = () => mouseDown = true;
+document.body.onmouseup = () => mouseDown = false;
 
 
 // Get elements
@@ -24,6 +22,7 @@ const buttons = document.querySelectorAll(".controls .toggle");
 const clear = document.querySelector("#clear");
 
 
+
 // Functions definitions
 function setAttributes(el, attr) {
     for(const key in attr) {
@@ -32,15 +31,15 @@ function setAttributes(el, attr) {
 }
 
 function addGrid(numberOfBlocks) {
+    removeAllChildNodes(grid);
     grid.style.gridTemplateColumns = `repeat(${numberOfBlocks}, 1fr)`;
     grid.style.gridTemplateRows = `repeat(${numberOfBlocks}, 1fr)`;
-    
-    numberOfBlocks2 = numberOfBlocks * numberOfBlocks;
-    for (let i = 0; i < numberOfBlocks2; i++) {
+    for (let i = 0; i < numberOfBlocks * numberOfBlocks; i++) {
         let div = document.createElement("div");
         div.classList.add("gridElement");
-        grid.insertAdjacentElement("beforeend", div);
+        grid.appendChild(div);
     }
+    addDivEventListener();
 }
 
 function removeAllChildNodes(parent) {
@@ -49,41 +48,45 @@ function removeAllChildNodes(parent) {
     }
 }
 
+function returnColor() {
+    if (activeButton === "color") {
+        return colorPicker.value;
+    }
+    else if (activeButton === "rainbow") {
+        return "#" + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase();
+    }
+    else if (activeButton === "erase") {
+        return "white";
+    }
+}
+
+
 function addDivEventListener() {
     const divs = document.querySelectorAll(".display div");
-    divs.forEach(el => el.addEventListener("mouseover", function() {
-        if (mouseDown === 1) {
-            el.style.backgroundColor = "black";
+    divs.forEach(el => el.addEventListener("mouseover", () => {
+        if (mouseDown === true) {
+            el.style.backgroundColor = returnColor();
         }
     }));
-    divs.forEach(el => el.addEventListener("mousedown", () => el.style.backgroundColor = "black"));
+    divs.forEach(el => el.addEventListener("mousedown", () => el.style.backgroundColor = returnColor()));
 }
 
 // Set initial slider properties and grid
 setAttributes(slider, sliderProperties);
 addGrid(slider.value);
-addDivEventListener();
 
 // Slider event
-slider.onchange = function() {
-    removeAllChildNodes(grid);
-    addGrid(this.value);
-    addDivEventListener();
-}
-slider.oninput = (e) => {
-    slider.setAttribute("value", e.target.value);
-    gridDisplay.textContent = `Grid size: ${e.target.value} x ${e.target.value}`;
-}
+slider.onchange = (e) => addGrid(e.target.value);
+slider.oninput = (e) => gridDisplay.textContent = `Grid size: ${e.target.value} x ${e.target.value}`;
 
 // Add event listener for each button
 buttons.forEach(btn => btn.addEventListener("click", function() {
-    if (btn.value === "off") {
+    if (btn.class !== "on") {
         buttons.forEach(btn => {
-            btn.value = "off";
             btn.classList.remove("on");
         });
-        btn.value = "on";
         btn.classList.add("on");
+        activeButton = btn.id;
     }
 }));
 
