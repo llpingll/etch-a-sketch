@@ -6,26 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etch-a-sketch</title>
     <script src="script.js" defer></script>
+    <script src="https://kit.fontawesome.com/b68b3f9e8e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <h1>Etch-a-sketch</h1>
-
-    <div class="container">
-        <div class="controls">
-            <input type="color" class="color-picker">
-            <button class="toggle on" id="color">Color</button>
-            <button class="toggle" id="rainbow">Rainbow</button>
-            <button class="toggle" id="erase">Erase</button>
-            <button id="clear">Clear</button>
-            <div class="slide-container">
-                <p id="grid">Grid size: 16 x 16</p>
-                <input type="range" class="slider" id="myRange">
+    <div class="body">
+        <h1>Etch-a-sketch</h1>
+        <div class="container">
+            <div class="controls">
+                <input type="color" class="color-picker">
+                <button class="toggle on" id="color">Color</button>
+                <button class="toggle" id="rainbow">Rainbow</button>
+                <button class="toggle" id="erase">Erase</button>
+                <button id="clear">Clear</button>
+                <div class="slide-container">
+                    <p id="grid">Grid size: 16 x 16</p>
+                    <input type="range" class="slider" id="myRange">
+                </div>
             </div>
+            <div class="display"></div>
         </div>
-        <div class="display"></div>
     </div>
-    
+    <footer class="footer">
+        <p>||ping|| © <script>document.write(new Date().getFullYear())</script>
+        <a href="https://https://github.com/llpingll" target="_blank"><i class="fa-brands fa-github"></i></a>
+        </p>
+      </footer>
 </body>
 </html>
